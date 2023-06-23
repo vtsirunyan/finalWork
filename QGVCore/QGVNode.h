@@ -55,6 +55,12 @@ public:
         return Type;
     }
 
+    bool getIs_final() const;
+    void setIs_final(bool value);
+
+    bool getIs_initial() const;
+    void setIs_initial(bool value);
+
 private:
     friend class QGVScene;
     friend class QGVSubGraph;
@@ -72,6 +78,9 @@ private:
     int frequency;
     QGVScene *_scene;
     QGVNodePrivate* _node;
+    bool is_final;
+    bool is_initial;
+    QString m_label;
 };
 
 

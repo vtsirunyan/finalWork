@@ -26,13 +26,17 @@ DEPENDPATH += $$PWD/../QGVCore
 SOURCES += main.cpp\
     MainWindow.cpp \
     QGraphicsViewEc.cpp \
-    nfatodfaconvertor.cpp
+    RLGparser.cpp \
+    automata.cpp \
+    nfatodfa.cpp
 
 HEADERS  += \
     MainWindow.h \
     QGraphicsViewEc.h \
+    RLGparser.h \
+    automata.h \
     graphvizwrapper.h \
-    nfatodfaconvertor.h
+    nfatodfa.h
 
 FORMS    +=
 

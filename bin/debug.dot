@@ -1,0 +1,33 @@
+digraph DEMO {
+	graph [background=red,
+		bb="0 0 521 166",
+		rankdir=LR
+	];
+	node [color=green,
+		fillcolor=white,
+		height=0.1,
+		label="\N",
+		margin=0.1,
+		overlap=scalexy,
+		shape=circle,
+		style=filled,
+		width=0.1
+	];
+	edge [minlen=3];
+	"%3"	[label=q1];
+	"%5"	[label=q2];
+	"%3" -> "%5"	[label=1];
+	"%9"	[label=q4];
+	"%3" -> "%9"	[label=0];
+	"%5" -> "%3"	[label=1];
+	"%7"	[label=q3];
+	"%5" -> "%7"	[label=0];
+	"%7" -> "%7"	[label=1];
+	"%13"	[label=q6];
+	"%7" -> "%13"	[label=0];
+	"%9" -> "%9"	[label=1];
+	"%11"	[label=q5];
+	"%9" -> "%11"	[label=0];
+	"%11" -> "%9"	[label=1];
+	"%11" -> "%13"	[label=0];
+}

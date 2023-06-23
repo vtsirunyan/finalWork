@@ -50,7 +50,8 @@ public:
     QGVNode* addNode(const QString& label , int frequency);
     QGVEdge* addEdge(QGVNode* source, QGVNode* target, const QString& label=QString());
     QGVSubGraph* addSubGraph(const QString& name, bool cluster=true);
-
+    void setInitial(QString node, bool val);
+    void setTerminal(QString node, bool val);
     void deleteNode(QGVNode *node);
     void deleteEdge(QGVEdge *edge);
     void deleteSubGraph(QGVSubGraph *subgraph);

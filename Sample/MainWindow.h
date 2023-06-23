@@ -26,6 +26,9 @@ class QGraphicsViewEc;
 class QPushButton;
 class QVBoxLayout;
 class QTextEdit;
+class QLineEdit;
+class QFile;
+
 
 class MainWindow : public QMainWindow
 {
@@ -47,16 +50,28 @@ private slots:
   void dummySlot2();
   void dummySlot3();
   void parseGraph();
+  void parseRLG();
+  void getDeduction();
+  void saveFile();
+  void saveAsFile();
+  void loadFile();
 public:
     QGVScene *_scene;
     GraphvizWrapper* wrapper;
     QGraphicsViewEc* graphicsView;
     QVBoxLayout* sidebarLayout;
-    QPushButton* addItemButton;
     QPushButton* dummyButton1;
-    QPushButton* dummyButton2;
     QPushButton* dummyButton3;
     QTextEdit* m_edit;
+    QTextEdit* m_RLGEdit;
+    QTextEdit* m_ERROR_LOG;
+    QTextEdit* m_Deduction;
+    QLineEdit* m_main_alphabet;
+    QLineEdit* m_rlg_alphabet;
+    QLineEdit* m_deduction_word;
+    QTabWidget* m_mainTabWidget;
+    QFile* m_file;
+    bool m_rlg;
 };
 
 #endif // MAINWINDOW_H

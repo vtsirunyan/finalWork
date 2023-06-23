@@ -23,15 +23,37 @@ License along with this library.
 #include <QDebug>
 #include <QPainter>
 
-QGVNode::QGVNode(QGVNodePrivate *node, QGVScene *scene): _scene(scene), _node(node)
+QGVNode::QGVNode(QGVNodePrivate *node, QGVScene *scene): _scene(scene), _node(node), is_final(false), is_initial(false)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
 }
 
+bool QGVNode::getIs_initial() const
+{
+  return is_initial;
+}
+
+void QGVNode::setIs_initial(bool value)
+{
+  is_initial = value;
+  setLabel(m_label);
+}
+
+bool QGVNode::getIs_final() const
+{
+  return is_final;
+}
+
+void QGVNode::setIs_final(bool value)
+{
+  is_final = value;
+  setLabel(m_label);
+}
+
 QGVNode::~QGVNode()
 {
-    _scene->removeItem(this);
-    delete _node;
+  _scene->removeItem(this);
+  delete _node;
 }
 
 QPointF QGVNode::vizPos()
@@ -57,7 +79,7 @@ qreal QGVNode::gHeight()
 
 QString QGVNode::label() const
 {
-    return getAttribute("label");
+    return m_label;
 }
 
 QString QGVNode::getfrequnecy() const
@@ -67,7 +89,17 @@ QString QGVNode::getfrequnecy() const
 
 void QGVNode::setLabel(const QString &label)
 {
-    setAttribute("label", label);
+  QString lbl;
+  if(is_final) {
+    lbl += "- ";
+  }
+  lbl += label;
+  if(is_initial) {
+    lbl += " +";
+  }
+  m_label = label;
+  qDebug() << lbl;
+  setAttribute("label", lbl);
 }
 
 QRectF QGVNode::boundingRect() const
@@ -94,7 +126,16 @@ void QGVNode::paint(QPainter * painter, const QStyleOptionGraphicsItem *, QWidge
 
     painter->setPen(QGVCore::toColor(getAttribute("labelfontcolor")));
     const QRectF rect = boundingRect().adjusted(2,2,-2,-2); //Margin
-    painter->drawText(rect, Qt::AlignCenter , alable);
+    QString lbl;
+    if(is_final) {
+      lbl += "- ";
+    }
+    lbl += m_label;
+    if(is_initial) {
+      lbl += " +";
+    }
+    painter->drawText(rect, Qt::AlignCenter , lbl);
+    qDebug () << "The internal label is " << getAttribute("label");
     if (frequency) {
       painter->drawText(rect, Qt::AlignTop | Qt::AlignHCenter, QGVNode::getfrequnecy());
     }
@@ -104,7 +145,8 @@ void QGVNode::paint(QPainter * painter, const QStyleOptionGraphicsItem *, QWidge
 void QGVNode::setAttribute(const QString &name, const QString &value)
 {
     char empty[] = "";
-    agsafeset(_node->node(), name.toLocal8Bit().data(), value.toLocal8Bit().data(), empty);
+    int res = agsafeset(_node->node(), name.toLocal8Bit().data(), value.toLocal8Bit().data(), empty);
+    qDebug() << "res is " << res;
 }
 
 QString QGVNode::getAttribute(const QString &name) const
@@ -129,10 +171,6 @@ void QGVNode::updateLayout()
     //Node Position (center)
     qreal gheight = QGVCore::graphHeight(_scene->_graph->graph());
     setPos(QGVCore::centerToOrigin(QGVCore::toPoint(ND_coord(_node->node()), gheight), width, height));
-    qDebug() << "Node is" << label()
-             << "QT pos is " << QGVCore::centerToOrigin(QGVCore::toPoint(ND_coord(_node->node()), gheight), width, height)
-             << "visPos is " << ND_coord(_node->node()).x << " " <<  ND_coord(_node->node()).y;
-
     //Node on top
     setZValue(1);
 

@@ -157,6 +157,24 @@ QGVSubGraph *QGVScene::addSubGraph(const QString &name, bool cluster)
     return item;
 }
 
+void QGVScene::setInitial(QString nodeName, bool val)
+{
+  for(auto node : _nodes) {
+    if(node->label() == nodeName) {
+        node->setIs_initial(val);
+    }
+  }
+}
+
+void QGVScene::setTerminal(QString nodeName, bool val)
+{
+  for(auto node : _nodes) {
+    if(node->label() == nodeName) {
+        node->setIs_final(val);
+    }
+  }
+}
+
 void QGVScene::deleteNode(QGVNode* node)
 {
     QList<QGVNode *>::iterator it = std::find(_nodes.begin(), _nodes.end(), node);
